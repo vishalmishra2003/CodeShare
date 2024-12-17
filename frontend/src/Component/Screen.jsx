@@ -1,10 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { BiDoorOpen } from "react-icons/bi";
+import { useNavigate } from 'react-router-dom';
 import { SocketContext } from '../Context/SocketContext';
 import Chat from './Chat';
 
 const Screen = () => {
     const { socket } = useContext(SocketContext);
     const [value, setValue] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (socket) {
@@ -26,8 +29,21 @@ const Screen = () => {
         }
     };
 
+    const leaveConversation = () => {
+        if (socket) {
+            socket.emit('leaveRoom');
+            socket.disconnect();
+        }
+        navigate('/');
+    };
+
     return (
         <div className="screen-container">
+            {/* Leave Button */}
+            <button onClick={leaveConversation} className="leave-button">
+                <BiDoorOpen size={24} />
+            </button>
+
             <div className="screen-input">
                 <h1>Share Screen</h1>
                 <textarea

@@ -122,3 +122,30 @@
         width: 100%;
     }
 }
+
+.screen-container {
+    position: relative;
+    /* Ensure relative positioning for the parent container */
+    padding: 20px;
+}
+
+.leave-button {
+    position: absolute;
+    /* Place the button relative to the parent */
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.leave-button:hover {
+    background-color: #d32f2f;
+}

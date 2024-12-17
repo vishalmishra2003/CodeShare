@@ -18,11 +18,25 @@ const io = new Server(server, {
 app.use(cors())
 
 io.on('connection', (socket) => {
-    console.log(`Socket : ${socket.id}`)
+    console.log(`Socket connected: ${socket.id}`);
+
     socket.on('inputChange', (data) => {
-        socket.broadcast.emit('update-input', data)
-    })
-})
+        socket.broadcast.emit('update-input', data);
+    });
+
+    socket.on('create-room', (roomKey) => {
+        if (roomKey.key) {
+            console.log(`Room Created with key: ${roomKey.key}`);
+            socket.join(`ROOMCODE${roomKey.key}`);
+        } else {
+            console.log('Invalid room key received:', roomKey);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log(`Socket disconnected: ${socket.id}`);
+    });
+});
 
 server.listen(process.env.PORT, () => {
     console.log(`Connected to Port ${process.env.PORT}`)
