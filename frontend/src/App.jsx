@@ -5,6 +5,7 @@ import Registration from "./Authentication/Registration"
 import Joinroom from "./Component/Room/Joinroom"
 import Createroom from "./Component/Room/Createroom"
 import Screen from "./Component/Screen"
+import Chat from "./Component/Chat"
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="Joinroom" element={<Joinroom />} />
           <Route path="Createroom" element={<Createroom />} />
           <Route path="Screen" element={<Screen />} />
+          <Route path="Chat" element={<Chat />} />
         </Routes>
       </BrowserRouter>
     </>

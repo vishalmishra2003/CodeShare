@@ -19,20 +19,25 @@ app.use(cors())
 
 io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`);
-
     socket.on('inputChange', (data) => {
         socket.broadcast.emit('update-input', data);
     });
 
-    socket.on('create-room', (roomKey) => {
-        if (roomKey.key) {
-            console.log(`Room Created with key: ${roomKey.key}`);
-            socket.join(`ROOMCODE${roomKey.key}`);
-        } else {
-            console.log('Invalid room key received:', roomKey);
-        }
-    });
+    socket.on('create-room', (data) => {
+        socket.emit('room-key', data);
+        console.log("Room Key : ", data)
+        socket.on('sent-room-key', (key) => {
+            if (data === key) {
+                socket.on('join-room', (roomkey) => {
+                    socket.to(roomkey).emit('room-joined', { msg: "Joined Room" })
+                })
+            }
+        })
+    })
 
+    socket.on('send-message', (message) => {
+        socket.broadcast.emit('receive-message', message)
+    })
     socket.on('disconnect', () => {
         console.log(`Socket disconnected: ${socket.id}`);
     });

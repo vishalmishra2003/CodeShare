@@ -39,7 +39,6 @@ const Screen = () => {
 
     return (
         <div className="screen-container">
-            {/* Leave Button */}
             <button onClick={leaveConversation} className="leave-button">
                 <BiDoorOpen size={24} />
             </button>

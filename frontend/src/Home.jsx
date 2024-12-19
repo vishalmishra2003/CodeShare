@@ -18,12 +18,16 @@ const Home = () => {
     return (
         <div>
             <h1>Home Page</h1>
-            <button>
-                <Link to="/Joinroom">Join Room</Link>
-            </button>
-            <button>
-                <Link to="/Createroom">Create Room</Link>
-            </button>
+            <Link to="/Joinroom">
+                <button>
+                    Join Room
+                </button>
+            </Link>
+            <Link to="/Createroom">
+                <button>
+                    Create Room
+                </button>
+            </Link>
         </div>
     );
 };

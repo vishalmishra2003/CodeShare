@@ -43,6 +43,8 @@
     border: 1px solid #007bff;
 }
 
+/* CHAT BOX */
+
 .chat-container-wrapper {
     flex: 1;
     background-color: #ffffff;
@@ -102,6 +104,42 @@
     background-color: #0056b3;
 }
 
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    margin: 10px 0;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 70%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 20px;
+}
+
+.message.sent {
+    align-self: flex-end;
+    /* Aligns sent messages to the right */
+    background-color: #007bff;
+    color: white;
+    text-align: right;
+}
+
+.message.received {
+    align-self: flex-start;
+    /* Aligns received messages to the left */
+    background-color: #e4ebe4;
+    color: black;
+    text-align: left;
+}
+
 @media (max-width: 768px) {
     .screen-container {
         flex-direction: column-reverse;
@@ -123,9 +161,9 @@
     }
 }
 
+/* Leave Button */
 .screen-container {
     position: relative;
-    /* Ensure relative positioning for the parent container */
     padding: 20px;
 }
 
