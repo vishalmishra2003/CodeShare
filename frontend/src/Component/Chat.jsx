@@ -7,7 +7,7 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
 
     const sendMessage = () => {
-        socket.emit('send-message', msg, room);
+        socket.emit('send-message', msg);
         setMessages((prevMessages) => [...prevMessages, { text: msg, type: 'sent' }]);
         setMsg('');
     };

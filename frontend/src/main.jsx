@@ -3,14 +3,15 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { SocketProvider } from './Context/SocketContext.jsx'
-import { KeyProvider } from './Context/KeyContext.jsx'
+import { ContextApiProvider } from './Context/contextApi.jsx'
+// import { KeyProvider } from './Context/KeyContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <KeyProvider>
-      <SocketProvider>
+    <SocketProvider>
+      <ContextApiProvider>
         <App />
-      </SocketProvider>
-    </KeyProvider>
+      </ContextApiProvider>
+    </SocketProvider>
   </StrictMode>,
 )

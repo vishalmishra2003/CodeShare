@@ -1,25 +1,27 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SocketContext } from '../../Context/SocketContext';
-import { KeyContext } from '../../Context/KeyContext';
+import { ContextApi } from '../../Context/contextApi';
 
 const Joinroom = () => {
-    const { roomKey } = useContext(KeyContext);
+    const [key, setKey] = useState('');
+    // const { userName, setUserName } = useContext(ContextApi);
+    const [userName, setUserName] = useState('');
     const { socket } = useContext(SocketContext);
     const navigate = useNavigate();
-    const [key, setKey] = useState('');
 
-    const joinroom = () => {
-        console.log("Key : " + key + "\nRoomKey :" + roomKey);
-        socket.on('room-key', (code) => {
-            setKey(code)
-        })
-        console.log("CODE : ", key)
-        if (key === roomKey) {
-            socket.emit('sent-room-key', key);
-            navigate('/Screen'); // Navigate to the room's screen after joining
+    console.log("Username : ", userName)
+    const joinRoom = () => {
+        if (socket && key.trim() && userName.trim()) {
+            socket.emit('join-room', key, (response) => {
+                if (response.success) {
+                    navigate('/Screen');
+                } else {
+                    alert(response.message || 'Failed to join the room');
+                }
+            });
         } else {
-            alert("No Such Room");
+            alert('Please enter a valid room key and username');
         }
     };
 
@@ -32,7 +34,13 @@ const Joinroom = () => {
                 onChange={(e) => setKey(e.target.value)}
                 placeholder="Enter Joining Code"
             />
-            <button onClick={joinroom}>Join Room</button>
+            <input
+                type="text"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)} //(prevUser) => [...prevUser, { newUser: e.target.value }]
+                placeholder="Enter User Name"
+            />
+            <button onClick={joinRoom}>Join Room</button>
         </div>
     );
 };

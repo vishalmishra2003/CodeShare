@@ -5,10 +5,19 @@ import { SocketContext } from '../Context/SocketContext';
 import Chat from './Chat';
 
 const Screen = () => {
+
     const { socket } = useContext(SocketContext);
     const [value, setValue] = useState('');
     const navigate = useNavigate();
 
+    // console.log(socket.id)
+    // const pageReloaded = sessionStorage.getItem('pageReloaded');
+
+    // if (pageReloaded) {
+    //     navigate('/');
+    // } else {
+    //     sessionStorage.setItem('pageReloaded', 'true');
+    // }
     useEffect(() => {
         if (socket) {
             socket.on('update-input', (data) => {
@@ -36,7 +45,6 @@ const Screen = () => {
         }
         navigate('/');
     };
-
     return (
         <div className="screen-container">
             <button onClick={leaveConversation} className="leave-button">

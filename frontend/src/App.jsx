@@ -6,13 +6,14 @@ import Joinroom from "./Component/Room/Joinroom"
 import Createroom from "./Component/Room/Createroom"
 import Screen from "./Component/Screen"
 import Chat from "./Component/Chat"
-
+import { ContextApiProvider } from "./Context/contextApi"
 
 function App() {
 
   return (
     <>
       <BrowserRouter>
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="Login" element={<Login />} />
@@ -22,6 +23,7 @@ function App() {
           <Route path="Screen" element={<Screen />} />
           <Route path="Chat" element={<Chat />} />
         </Routes>
+
       </BrowserRouter>
     </>
   )
