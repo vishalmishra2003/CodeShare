@@ -5,7 +5,7 @@ const Chat = () => {
     const { socket } = useContext(SocketContext);
     const [msg, setMsg] = useState('');
     const [messages, setMessages] = useState([]);
-
+    const [userName,setUserName] = useState()
     const sendMessage = () => {
         socket.emit('send-message', msg);
         setMessages((prevMessages) => [...prevMessages, { text: msg, type: 'sent' }]);
@@ -18,6 +18,9 @@ const Chat = () => {
             setMessages((prevMessages) => [...prevMessages, { text: message, type: 'received' }]);
         };
 
+        socket.on('room-created',(data)=>{
+            console.log("Data : ",data)
+        })
         socket.on('receive-message', handleReceiveMessage);
         socket.emit('send-emessage', msg)
 
@@ -30,11 +33,14 @@ const Chat = () => {
         <div className="chat-container">
             <div className="chat-header">
                 <h2>Chat Room</h2>
+                <span>YO</span>
             </div>
             <div className="chat-messages">
                 {messages.map((message, index) => (
                     <div key={index} className={`message ${message.type}`}>
+                    <div>
                         {message.text}
+                    </div>
                     </div>
                 ))}
             </div>

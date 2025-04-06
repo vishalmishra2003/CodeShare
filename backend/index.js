@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
         if (roomId && username) {
             console.log(`Room Created: ${roomId} by ${username}`);
             socket.join(roomId);
-            socket.to(roomId).emit('room-created', { id: roomId, message: 'Room Created' });
+            socket.to(roomId).emit('room-created', { id: roomId, username:username,message: 'Room Created' });
         }
     });
 
@@ -41,8 +41,9 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on('send-message', (message) => {
-        socket.broadcast.emit('receive-message', message);
+    socket.on('send-message', (message,username) => {
+        const timestamp = new Date().toLocaleTimeString();
+        socket.broadcast.emit('receive-message', {text:message,sender:username,timestamp});
     });
 
     socket.on('disconnect', () => {
