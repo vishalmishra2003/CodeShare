@@ -16,6 +16,8 @@ const io = new Server(server, {
 
 app.use(cors());
 
+const userData = {}
+
 io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`);
     socket.on('inputChange', (data) => {
@@ -26,28 +28,42 @@ io.on('connection', (socket) => {
         if (roomId && username) {
             console.log(`Room Created: ${roomId} by ${username}`);
             socket.join(roomId);
-            socket.to(roomId).emit('room-created', { id: roomId, username:username,message: 'Room Created' });
+            userData[socket.id] = {roomId, username}
+            socket.to(roomId).emit('room-created', { id: roomId, createdUser: username, message: 'Room Created' });
         }
     });
 
-    socket.on('join-room', (roomId, callback) => {
-        const rooms = Array.from(io.sockets.adapter.rooms.keys());
-        if (rooms.includes(roomId)) {
-            socket.join(roomId);
-            console.log(`User joined room: ${roomId}`);
+    socket.on('join-room', (data, callback) => {
+        const roomKey = data.roomId;
+        const username = data.username;
+    
+        const room = io.sockets.adapter.rooms.get(roomKey);
+    
+        if (room && room.size > 0) {  // <-- Check if room exists and has at least 1 socket
+            socket.join(roomKey);
+            console.log(`User ${username} joined room: ${roomKey}`);
+            userData[socket.id] = { roomId: roomKey, username };
             callback({ success: true });
         } else {
             callback({ success: false, message: 'Room does not exist' });
         }
     });
-
-    socket.on('send-message', (message,username) => {
+    
+    socket.on('send-message', (message) => {
         const timestamp = new Date().toLocaleTimeString();
-        socket.broadcast.emit('receive-message', {text:message,sender:username,timestamp});
+        const {roomId, username} = userData[socket.id];
+        if(roomId){
+            io.to(roomId).emit('receive-message', {
+                text: message,
+                sender: username,
+                timestamp,
+            });
+        }
     });
 
     socket.on('disconnect', () => {
         console.log(`Socket disconnected: ${socket.id}`);
+        delete userData[socket.id];
     });
 });
 

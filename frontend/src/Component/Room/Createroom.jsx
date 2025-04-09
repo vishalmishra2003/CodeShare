@@ -26,8 +26,7 @@ const Createroom = () => {
             };
         }
     }, [socket]);
-    // console.log("Username : ", userName)
-
+    
     const joinCreatedRoom = () => {
         if (socket && userName.trim()) {
             socket.emit('create-room', { roomId: roomKey, username: userName });

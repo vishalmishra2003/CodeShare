@@ -10,17 +10,10 @@ const Screen = () => {
     const [value, setValue] = useState('');
     const navigate = useNavigate();
 
-    // console.log(socket.id)
-    // const pageReloaded = sessionStorage.getItem('pageReloaded');
-
-    // if (pageReloaded) {
-    //     navigate('/');
-    // } else {
-    //     sessionStorage.setItem('pageReloaded', 'true');
-    // }
     useEffect(() => {
         if (socket) {
             socket.on('update-input', (data) => {
+                console.log("Update from socket:", socket.id);
                 setValue(data);
             });
 
@@ -40,7 +33,6 @@ const Screen = () => {
 
     const leaveConversation = () => {
         if (socket) {
-            socket.emit('leaveRoom');
             socket.disconnect();
         }
         navigate('/');
@@ -54,11 +46,12 @@ const Screen = () => {
             <div className="screen-input">
                 <h1>Share Screen</h1>
                 <textarea
-                    type="text"
                     id="code"
                     value={value}
                     onChange={handleInputChange}
                     placeholder="Type to share..."
+                    rows={10}
+                    cols={50}
                 />
             </div>
             <div className="chat-container-wrapper">

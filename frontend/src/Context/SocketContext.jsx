@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
         setSocket(newsocket);
 
         return () => {
-            // newsocket.disconnect();
+            newsocket.disconnect();
         };
     }, []);
 

@@ -5,42 +5,56 @@ const Chat = () => {
     const { socket } = useContext(SocketContext);
     const [msg, setMsg] = useState('');
     const [messages, setMessages] = useState([]);
-    const [userName,setUserName] = useState()
+    const [userName, setUserName] = useState(''); // Current logged-in user's name
+
     const sendMessage = () => {
-        socket.emit('send-message', msg);
-        setMessages((prevMessages) => [...prevMessages, { text: msg, type: 'sent' }]);
-        setMsg('');
+        if (socket && msg.trim()) {
+            socket.emit('send-message', msg);  // Only send the message
+            setMsg('');
+        }
     };
 
     useEffect(() => {
-        if (!socket) return
+        if (!socket) return;
+
+        socket.on('room-created', (data) => {
+            console.log(data.createdUser);
+            setUserName(data.createdUser);
+        });
+
         const handleReceiveMessage = (message) => {
-            setMessages((prevMessages) => [...prevMessages, { text: message, type: 'received' }]);
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                {
+                    text: message.text,
+                    sender: message.sender,
+                    timestamp: message.timestamp,
+                    type:'received',
+                    isOwnMessage: message.sender === userName
+                }
+            ]);
         };
 
-        socket.on('room-created',(data)=>{
-            console.log("Data : ",data)
-        })
         socket.on('receive-message', handleReceiveMessage);
-        socket.emit('send-emessage', msg)
 
         return () => {
             socket.off('receive-message', handleReceiveMessage);
         };
-    }, [socket]);
+    }, [socket, userName]);
 
     return (
         <div className="chat-container">
             <div className="chat-header">
                 <h2>Chat Room</h2>
-                <span>YO</span>
+                <span>{userName ? `Welcome, ${userName}` : 'Loading username...'}</span>
             </div>
             <div className="chat-messages">
                 {messages.map((message, index) => (
-                    <div key={index} className={`message ${message.type}`}>
-                    <div>
-                        {message.text}
-                    </div>
+                    <div key={index} className={message.type=='received'?'message received':'message  sent'}>
+                        <div>
+                            <strong>{message.isOwnMessage ? 'You' : message.sender}</strong>: {message.text}
+                            <span style={{ marginLeft: '10px', fontSize: '0.8rem', color: '#666' }}>{message.timestamp}</span>
+                        </div>
                     </div>
                 ))}
             </div>

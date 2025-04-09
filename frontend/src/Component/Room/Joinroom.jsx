@@ -10,10 +10,9 @@ const Joinroom = () => {
     const { socket } = useContext(SocketContext);
     const navigate = useNavigate();
 
-    console.log("Username : ", userName)
     const joinRoom = () => {
         if (socket && key.trim() && userName.trim()) {
-            socket.emit('join-room', key, (response) => {
+            socket.emit('join-room', { roomId: key, username: userName }, (response) => {
                 if (response.success) {
                     navigate('/Screen');
                 } else {
