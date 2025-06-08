@@ -6,13 +6,12 @@ import { ContextApi } from '../../Context/contextApi';
 const Createroom = () => {
     const [roomKey, setRoomKey] = useState('');
     const [userName, setUserName] = useState('');
-    // const { userName, setUserName } = useContext(ContextApi)
     const { socket } = useContext(SocketContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         const generateRandomKey = () => {
-            const randomKey = (Math.floor(1000 + Math.random() * 9000)).toString();
+            const randomKey = (Math.floor(1000000 + Math.random() * 900000)).toString();
             setRoomKey(randomKey);
         };
 
@@ -45,7 +44,7 @@ const Createroom = () => {
             <input
                 type="text"
                 value={userName}
-                onChange={(e) => setUserName(e.target.value)} //(prevUser) => [...prevUser, { newUser: e.target.value }]
+                onChange={(e) => setUserName(e.target.value)}
             />
             <button onClick={joinCreatedRoom}>Create Room</button>
         </div>

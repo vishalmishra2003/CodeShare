@@ -18,7 +18,7 @@ const Chat = () => {
         if (!socket) return;
 
         socket.on('room-created', (data) => {
-            console.log(data.createdUser);
+            console.log("Name : ",data.createdUser);
             setUserName(data.createdUser);
         });
 
