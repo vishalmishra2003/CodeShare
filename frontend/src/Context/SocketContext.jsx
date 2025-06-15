@@ -7,7 +7,8 @@ export const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        const newsocket = io("http://localhost:3000");
+        // AWS : http://44.205.254.223:3000/ || Local :http://localhost:3000
+        const newsocket = io(process.env.VITE_BACKEND_URL);
         setSocket(newsocket);
 
         return () => {
