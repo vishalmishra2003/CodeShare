@@ -8,7 +8,7 @@ export const SocketProvider = ({ children }) => {
 
     useEffect(() => {
         // AWS : http://44.205.254.223:3000/ || Local :http://localhost:3000
-        const newsocket = io(process.env.VITE_BACKEND_URL);
+        const newsocket = io(`${import.meta.env.VITE_BACKEND_URL}`);
         setSocket(newsocket);
 
         return () => {

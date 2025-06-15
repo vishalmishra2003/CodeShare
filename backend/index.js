@@ -8,7 +8,13 @@ const route = require('./route/routes');
 
 const app = express();
 const server = http.createServer(app);
-app.use(cors());
+// app.use(cors());
+
+app.use(cors({
+    origin: "*", // or better: ["http://your-s3-website-url"]
+    methods: ["GET", "POST"],
+    credentials: true
+}));
 
 app.use(express.json());
 
