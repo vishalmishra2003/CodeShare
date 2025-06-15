@@ -39,7 +39,7 @@ const Login = () => {
     e.preventDefault();
     if (validateForm()) {
       console.log('Logging in with', form);
-      axios.post(`${import.meta.env.VITE_API_URL}/login`, { email: form.email, password: form.password })
+      axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, { email: form.email, password: form.password })
         .then((res) => {
           console.log(res)
           if (res.status === 200) {

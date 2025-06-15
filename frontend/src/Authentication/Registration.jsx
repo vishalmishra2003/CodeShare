@@ -44,7 +44,7 @@ const Register = () => {
     e.preventDefault();
     if (validateForm()) {
       console.log('Registered:', form);
-      axios.post(`${import.meta.env.VITE_API_URL}/register`, { username: form.fullName, email: form.email, password: form.password })
+      axios.post(`${import.meta.env.VITE_BACKEND_URL}/register`, { username: form.fullName, email: form.email, password: form.password })
         .then((res) => {
           console.log(res)
           if (res.status == 201) {
