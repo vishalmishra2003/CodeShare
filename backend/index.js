@@ -9,12 +9,26 @@ const route = require('./route/routes');
 const app = express();
 const server = http.createServer(app);
 // app.use(cors());
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://codeshare-frontend.s3-website-us-east-1.amazonaws.com'
+];
 
 app.use(cors({
-    origin: "*", // or better: ["http://your-s3-website-url"]
-    methods: ["GET", "POST"],
-    credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ["GET", "POST"],
+  credentials: true // if using cookies or auth
 }));
+// app.use(cors({
+//     origin: "*", // or better: ["http://your-s3-website-url"]
+//     credentials: true
+// }));
 
 app.use(express.json());
 
