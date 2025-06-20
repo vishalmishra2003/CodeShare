@@ -4,7 +4,7 @@ const userStore = require('../utils/userStore');
 module.exports = function (server) {
     const io = new Server(server, {
         cors: {
-            origin: process.env.CLIENT_V2,
+            origin: "http://codeshare-frontend.s3-website-us-east-1.amazonaws.com",//process.env.CLIENT_V2
             credentials: true,
             methods: ['GET', 'POST'],
         },

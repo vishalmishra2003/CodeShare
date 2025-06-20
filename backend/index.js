@@ -14,17 +14,12 @@ const allowedOrigins = [
   'http://codeshare-frontend.s3-website-us-east-1.amazonaws.com'
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ["GET", "POST"],
-  credentials: true // if using cookies or auth
-}));
+app.use(
+  cors({
+    origin: "http://codeshare-frontend.s3-website-us-east-1.amazonaws.com",//process.env.CLIENT_V2
+    credentials: true,
+    methods: ['GET', 'POST'],
+  }));
 // app.use(cors({
 //     origin: "*", // or better: ["http://your-s3-website-url"]
 //     credentials: true
